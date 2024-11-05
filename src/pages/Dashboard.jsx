@@ -1,52 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CameraFeed from '../components/CameraFeed';
 
 const Dashboard = () => {
-  const [drowsinessPrediction, setDrowsinessPrediction] = useState(null); // State for prediction
+  const [drowsinessPrediction, setDrowsinessPrediction] = useState(null); 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (drowsinessPrediction !== null) {
+      setLoading(false);  // Set loading to false once data is received
+    }
+  }, [drowsinessPrediction]);
 
   return (
-    <div className="container mx-auto mt-8 p-4">
-      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+    <div className="container mx-auto mt-8 p-4 bg-[#F8E4EB] mt-0">
+      <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800">Driver Drowsiness Detection Dashboard</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Live Camera Feed */}
-        <div className="bg-white p-4 shadow-lg rounded-lg">
-          <h3 className="text-xl font-semibold mb-2">Live Camera Feed</h3>
-          <CameraFeed setDrowsinessPrediction={setDrowsinessPrediction} /> {/* Pass state updater function */}
+        <div className="bg-white rounded-lg shadow-lg flex flex-col">
+          <CameraFeed setDrowsinessPrediction={setDrowsinessPrediction} />
         </div>
 
         {/* Drowsiness Indicator */}
-        <div className="bg-white p-4 shadow-lg rounded-lg">
-          <h3 className="text-xl font-semibold mb-2">Drowsiness Indicator</h3>
-          <div className="flex items-center space-x-4">
-            <div className="w-24 h-24 rounded-full border-4 border-green-400 flex items-center justify-center text-lg">
-              {/* Display the prediction value */}
-              {drowsinessPrediction !== null ? (
-                <span>{Math.round(drowsinessPrediction * 100)}%</span>
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg border border-gray-200 flex flex-col">
+          <h3 className="text-2xl font-semibold mb-6 text-gray-700 text-center">Drowsiness Indicator</h3>
+          <div className="flex items-center justify-center flex-grow">
+            <div className={`w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center border-4 transition-all duration-300 
+                            ${loading ? 'border-gray-400 animate-spin' : (drowsinessPrediction > 0.6 ? 'border-red-800' : 'border-green-600')}`}>
+              {loading ? (
+                <span className="text-lg text-gray-500">Loading...</span>
               ) : (
-                <span>Loading...</span>
+                <span className="text-2xl font-bold">{Math.round(drowsinessPrediction * 100)}%</span>
               )}
             </div>
-            <div>
-              {drowsinessPrediction !== null && drowsinessPrediction > 0.5 ? ( // Adjust the threshold as necessary
-                <p className="text-lg font-bold text-red-600">Driver is Drowsy</p>
-              ) : (
-                <p className="text-lg font-bold text-green-600">Driver is Alert</p>
-              )}
-              <p className="text-gray-500">Last checked: {new Date().toLocaleTimeString()}</p>
-            </div>
+          </div>
+          <div className="text-center mt-4">
+            {drowsinessPrediction !== null && !loading && (
+              <p className={`text-xl font-bold ${drowsinessPrediction > 0.6 ? 'text-red-800' : 'text-green-600'}`}>
+                {drowsinessPrediction > 0.6 ? 'Driver is Drowsy' : 'Driver is Alert'}
+              </p>
+            )}
+            <p className="text-gray-500">Last checked: {loading ? '...' : new Date().toLocaleTimeString()}</p>
           </div>
         </div>
       </div>
 
       {/* Alert Section */}
-      <div className="bg-white mt-4 p-4 shadow-lg rounded-lg">
-        <h3 className="text-xl font-semibold mb-2">Alerts</h3>
-        {drowsinessPrediction > 0.5 ? (
-          <p className="text-red-600">Drowsiness detected! Take action!</p>
-        ) : (
-          <p className="text-yellow-600">No drowsiness detected yet!</p>
-        )}
+      <div className="bg-gray-100 mt-6 p-6 rounded-lg shadow-lg border border-gray-200 w-full">
+        <h3 className="text-2xl font-semibold mb-4 text-gray-700">Alerts</h3>
+        <p className={`text-lg font-bold ${drowsinessPrediction > 0.6 ? 'text-red-800' : 'text-yellow-600'}`}>
+          {drowsinessPrediction > 0.6 ? 'Drowsiness detected! Please take action!' : 'No drowsiness detected yet.'}
+        </p>
       </div>
     </div>
   );
