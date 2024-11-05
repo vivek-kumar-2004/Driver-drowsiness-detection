@@ -46,7 +46,7 @@ const Dashboard = () => {
       </div>
 
       {/* Alert Section */}
-      <div className="bg-gray-100 mt-6 p-6 rounded-lg shadow-lg border border-gray-200 w-full mb-[19%]">
+      <div className="bg-gray-100 mt-6 p-6 rounded-lg shadow-lg border border-gray-200 w-full">
         <h3 className="text-2xl font-semibold mb-4 text-gray-700">Alerts</h3>
         <p className={`text-lg font-bold ${drowsinessPrediction > 0.6 ? 'text-red-800' : 'text-yellow-600'}`}>
           {drowsinessPrediction > 0.6 ? 'Drowsiness detected! Please take action!' : 'No drowsiness detected yet.'}
