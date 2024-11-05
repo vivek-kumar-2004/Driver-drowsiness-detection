@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#4F0341] shadow-lg p-4">
+    <nav className="bg-[#4F0341] shadow-lg p-4 mb-[-2%]">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <img
@@ -28,7 +28,7 @@ const Navbar = () => {
         </div>
 
         {/* Links for larger screens */}
-        <ul className="hidden md:flex space-x-8">
+        <ul className="hidden md:flex space-x-8 ">
           {['Dashboard', 'Reports', 'Help'].map((link) => (
             <li key={link}>
               <Link
@@ -43,7 +43,7 @@ const Navbar = () => {
         </ul>
 
         {/* Hamburger Icon for Mobile */}
-        <div className="md:hidden">
+        <div className="md:hidden " >
           <button onClick={toggleMenu}>
             {isOpen ? (
               <XMarkIcon className="h-6 w-6 text-white" />
@@ -56,7 +56,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <ul className="md:hidden flex flex-col items-center space-y-4 mt-4 bg-[#4F0341] rounded-lg p-4">
+        <ul className="md:hidden flex flex-col items-center space-y-4 mt-4 bg-[#4F0341] rounded-lg p-4 ">
           {['Dashboard', 'Reports', 'Help'].map((link) => (
             <li key={link}>
               <Link
