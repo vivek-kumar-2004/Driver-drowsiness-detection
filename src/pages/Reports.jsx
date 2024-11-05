@@ -52,7 +52,7 @@ const Reports = () => {
   };
 
   return (
-    <div className="flex flex-col p-6 bg-gray-50 min-h-screen">
+    <div className="flex flex-col p-6 bg-gray-50 min-h-screen mt-8">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full">
         <div className="p-8">
           <h2 className="text-3xl font-bold text-black mb-4">Drowsiness Reports</h2>
